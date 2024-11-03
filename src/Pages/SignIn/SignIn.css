@@ -1,0 +1,42 @@
+.sign-in-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .sign-in-container h2 {
+    text-align: center;
+  }
+  
+  .sign-in-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sign-in-container form div {
+    margin-bottom: 15px;
+  }
+  
+  .sign-in-container form label {
+    margin-bottom: 5px;
+  }
+  
+  .sign-in-container form input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .sign-in-container form button {
+    padding: 10px;
+    background-color:skyblue;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .sign-in-container form button :hover{
+    background-color:rgb(45, 74, 179);
+  }

@@ -1,7 +1,9 @@
+import Header from "../../Components/Header/Header";
+
 const Home =()=>{
     return(
         <>
-        <h1>Home Page</h1>
+            <Header/>
         </>
     )
 }
