@@ -1,19 +1,28 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./SignIn.css"; // Add your custom styles here
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import "./SignIn.css"; // Custom styles
+import GoogleImg from "../../assets/images/googleImg.png"; // Adjusted path
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSignIn = (e) => {
     e.preventDefault();
-    // You can add logic to authenticate the user here
     console.log("Email:", email);
     console.log("Password:", password);
-    // On successful sign in, navigate to another page (e.g., home)
-    navigate("/");
+    // Replace with actual sign-in logic
+    navigate("/"); // Redirect after sign-in
+  };
+
+  const handleGoogleSignIn = () => {
+    // Here, you can add your Google sign-in logic
+    console.log("Google Sign-In clicked");
+    // Redirect or perform Google sign-in
+    navigate("/"); // Redirect after Google sign-in
   };
 
   return (
@@ -29,22 +38,46 @@ const SignIn = () => {
             required
           />
         </div>
-        <div>
+        
+        <div className="password-field">
           <label>Password:</label>
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+          <span
+            className="password-toggle-icon"
+            onClick={() => setShowPassword(!showPassword)}
+            style={{ cursor: "pointer" }}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+          <div>
+            <Link to="/forgot-password" className="border-effect">
+              Forgot Password?
+            </Link>
+          </div>
         </div>
-        <button type="submit">Sign In</button>
+
+        <div className="sign-in-button-container">
+          <button type="submit">Sign In</button>
+          <button type="button" className="cancel" onClick={() => navigate("/")}>Cancel</button>
+        </div>
       </form>
+
       <p>
         Don't have an account? <Link to="/sign-up">Sign Up</Link>
       </p>
+      <div className="cursor">
+        <button onClick={handleGoogleSignIn} style={{ background: 'none', border: 'none', padding: 0 }}>
+          <img src={GoogleImg} alt="Sign in with Google" className="w-100" />
+        </button>
+      </div>
     </div>
-  );
+);
+
 };
 
 export default SignIn;

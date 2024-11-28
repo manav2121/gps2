@@ -1,24 +1,20 @@
+// src/pages/Cart/Cart.js
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Header from "../../Components/Header/Header"; // Correct path to Header
-import "./Cart.css"; // Custom styles here
+import "./Cart.css";
 
 const Cart = () => {
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const cartCount = parseInt(localStorage.getItem("cartCount") || "0", 10);
   const totalPrice = parseInt(localStorage.getItem("totalPrice") || "0", 10);
 
   const handleCheckout = () => {
-    // Navigate to checkout page (update the path accordingly)
-    navigate("/checkout");
+    navigate("/checkout"); // Updated to navigate to the billing page
   };
 
   return (
     <div className="cart-container">
-      
-
       <h1>Your Order Summary</h1>
-
       {cartCount > 0 ? (
         <div className="order-summary">
           <table className="table table-bordered">
@@ -44,7 +40,6 @@ const Cart = () => {
       ) : (
         <p>Your cart is empty!</p>
       )}
-
       <Link to="/" className="home-button">Return to Home</Link>
     </div>
   );

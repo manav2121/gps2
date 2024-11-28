@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./SignUp.css"; // Add your custom styles here
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleSignUp = (e) => {
@@ -28,21 +31,30 @@ const SignUp = () => {
         <div>
           <label>Email:</label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+                        name="email"
+                        value={email}
+                        onChange={onChangeHandler}
+                        className="p-5 w-full border border-gray-200 focus:ring-blue-300 focus:border-blue-300 rounded-md"
+                        type="email"
+                      />
         </div>
         <div>
           <label>Password:</label>
           <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+                    name="password"
+                    value={password}
+                    onChange={onChangeHandler}
+                    className="w-full mb-4 px-12 py-6 border border-gray-200 focus:ring-blue-300 focus:border-blue-300 rounded-md"
+                    type="password"
+                    placeholder="Enter your password"
+                  />
         </div>
+        <span
+            className="password-toggle-icon"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
         <div>
           <label>Confirm Password:</label>
           <input
@@ -52,10 +64,10 @@ const SignUp = () => {
             required
           />
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit">Create Account</button>
       </form>
       <p>
-        Already have an account? <Link to="/sign-in">Sign In</Link>
+        Already registered? <Link to="/sign-in">Login</Link>
       </p>
     </div>
   );

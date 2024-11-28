@@ -13,12 +13,18 @@ import clickSound from '../../assets/sounds/click.mp3';
 import '../Header.css';
 import { BiSupport } from "react-icons/bi";
 import { IoWater } from "react-icons/io5";
-
+import headd from '../../assets/images/headd.png';
+import he from '../../assets/images/he.png';
+import hee from '../../assets/images/hee.png';
 import { IoWaterOutline } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductsAction } from "../../redux/slices/products/productSlices";
 
 const Header = () => {
-  const navigate = useNavigate();
+ 
 
+  const userInfo = localStorage.getItem('userInfo');
   const basePrice = 40;
   const [cartCount, setCartCount] = useState(0);
   const [quantity, setQuantity] = useState(0);
@@ -95,10 +101,34 @@ const Header = () => {
   };
 
   const goToSignUp = () => {
-    navigate("/sign-up"); // Redirect to the SignUp page
+    navigate("/sign-in"); // Redirect to the SignUp page
   };
- 
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(
+      fetchProductsAction()
+    );
+  }, [dispatch]);
+  const {
+    products,
+    error,
+    loading,
+  } = useSelector((state) => state?.products);
+  const navigate = useNavigate();
 
+
+  if (loading) {
+    return <h2 className="text-center text-xl text-gray-500">Loading...</h2>;
+  }
+
+  if (error) {
+    return <h2 className="text-center text-xl text-red-500">Error: {error}</h2>;
+  }
+
+  if (!products||!products.data||!products.data[0].image) {
+    return <h2 className="text-center text-xl text-gray-500">No Product found.</h2>;
+  }
+// console.log(products.data)
   return (
     <>
       <div className={`headerWrapper ${openDialog ? 'dialogBackdropBlur' : ''}`}>
@@ -114,27 +144,36 @@ const Header = () => {
           <div className="header d-flex align-items-center justify-content-between">
             <div className="logoWrapper d-flex align-items-center col-sm-2">
               <Link to={'/'}>
-                <img src={logo1} alt="logo" />
+                <img src={hee} alt="logo" />
+                
               </Link>
             </div>
-
+            
+            
             <div className="part3 d-flex align-items-center ml-auto">
-              <div className="position-relative ml-2 cartTab">
-                <Button className="circle button" onClick={openCartInNewTab}>
+              <div className="position-relative mr-2 cartTab">
+              <Button className="circle button" onClick={openCartInNewTab}>
                   <span className="count">{cartCount}</span>
                   <FiShoppingCart className="sizebutton" />
                 </Button>
+                
+                {userInfo ? (
+        <CgProfile />
+         ): (
+            <Button onClick={goToSignUp} className="btn-blue btn-round mr-3">
+               Sign In
+            </Button>
+         ) }
+                
               </div>
-              <Button onClick={goToSignUp}>
-                <FiUser className="sizebutton" />
-              </Button>
+              
             </div>
           </div>
 
           <div className="product_row w-100 d-flex justify-content-center">
             <div className="item productItem d-flex flex-column align-items-center">
               <div className="imgWrapper" style={{ position: "relative" }}>
-                <img src={jar} alt="Product Jar" className="productImage" />
+                <img src={products.data[1].image} alt="Product Jar" className="productImage" />
                 <Button
                   variant="text"
                   onClick={handleDialogOpen}
@@ -145,9 +184,24 @@ const Header = () => {
                 </Button>
               </div>
 
-              <p className="price mt-3"><strong>Price:</strong> Rs. {basePrice}</p>
+              
 
-              {quantity === 0 && (
+              <p className="price mt-3"><strong>Price:</strong> Rs.  ${products.data[1].price}</p>
+              {products.data[1].qtyLeft <= 0 ? (
+                <button
+                  style={{ cursor: "not-allowed" }}
+                  disabled
+                  className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-600 py-3 px-8 text-base font-medium text-whitefocus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                  Add to cart
+                </button>
+              ) : (
+                <button
+                  onClick={() => addToCartHandler()}
+                  className="mt-8 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-8 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                  Add to cart
+                </button>
+              )}
+              {/* {quantity === 0 && (
                 <Button
                   variant="contained"
                   color="primary"
@@ -176,7 +230,7 @@ const Header = () => {
                 <p style={{ color: "red", marginTop: "5px" }}>
                   You have reached the maximum order limit.
                 </p>
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -226,7 +280,7 @@ const Header = () => {
           <div className="footer-section">
             < BiSupport size={32}/>
             <h4>Quick Support</h4>
-            <p> If any concern, just let us know and we will try to resolve it as quickly as possible.</p>
+            <p> If  we will try to resolve it as quickly as possible.</p>
           </div>
         </div>
       </footer>

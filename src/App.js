@@ -4,9 +4,11 @@ import './App.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Cart from "./Pages/Cart/Cart";
-import SignIn from "./Pages/SignIn/SignIn";
-import SignUp from "./Pages/SignUp/SignUp";
+import RegisterForm from "./Components/Users/Forms/RegisterForm.js";
 import Header from "./Components/Header/Header"; // Import the Header component
+import Login from "./Components/Users/Forms/Login";
+import Billing from "./Pages/Billing/Billing.js";
+
 
 
 function App() {
@@ -21,8 +23,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/sign-in" element={<SignIn />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/sign-in" element={<Login/>} />
+        <Route path="/sign-up" element={<RegisterForm />} />
+        <Route path="/checkout" element={<Billing />} />
       </Routes>
     </BrowserRouter>
   );
